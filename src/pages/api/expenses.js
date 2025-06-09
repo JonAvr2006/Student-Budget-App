@@ -8,20 +8,39 @@ export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
   if (!session) return res.status(401).json({ error: "Unauthorized" });
 
-  const currentMonth = new Date().toISOString().slice(0, 7); // "YYYY-MM"
-  const start = new Date(`${currentMonth}-01`);
-  const end = new Date(`${currentMonth}-31`);
+  if (req.method === "POST") {
+    const { category, amount, note, date } = req.body;
 
-  const expenses = await prisma.expense.findMany({
-    where: {
-      user: { email: session.user.email },
-      date: {
-        gte: start,
-        lte: end,
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
+
+    const newExpense = await prisma.expense.create({
+      data: {
+        userId: user.id,
+        category,
+        amount: parseFloat(amount),
+        note,
+        date: new Date(date),
       },
-    },
-    orderBy: { date: "desc" },
-  });
+    });
 
-  res.json(expenses);
+    return res.status(200).json(newExpense);
+  }
+
+  if (req.method === "GET") {
+    const expenses = await prisma.expense.findMany({
+      where: {
+        user: { email: session.user.email },
+      },
+      orderBy: { date: "desc" }, // newest first
+    });
+
+    return res.status(200).json(expenses);
+  }
+
+  res.setHeader("Allow", ["GET", "POST"]);
+  res.status(405).end(`Method ${req.method} Not Allowed`);
 }
+// This API route handles both fetching and creating expenses for the authenticated user.
+// It uses NextAuth for authentication and Prisma to interact with the database.

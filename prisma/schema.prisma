@@ -29,6 +29,8 @@ model Budget {
   month   String
   amount  Float
   user    User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, month]) //Required for upsert
 }
 
 model Expense {

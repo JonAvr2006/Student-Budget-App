@@ -33,6 +33,11 @@ export const authOptions = {
   ],
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/login", // <- your custom login page
+  }
 };
 
 export default NextAuth(authOptions); // ← Keep this for NextAuth to work
+
+
