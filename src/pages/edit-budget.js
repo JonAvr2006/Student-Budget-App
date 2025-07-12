@@ -1,66 +1,96 @@
-import { useState, useEffect } from "react";              // React hooks for state and lifecycle
-import { useRouter } from "next/router";                  // Used to redirect after saving
-import { useSession } from "next-auth/react";             // Used to get the logged-in user session
+"use client"
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 export default function EditBudget() {
-  const { data: session, status } = useSession();         // useSession() provides info about the logged-in user
-  const router = useRouter();                             // useRouter() allows navigation (e.g., redirect after submit)
-  const [amount, setAmount] = useState("");               // Holds the budget amount in state
-  const [loading, setLoading] = useState(true);           // Show a loading screen until data is fetched
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [amount, setAmount] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  // Get current month in "YYYY-MM" format (e.g., "2025-06")
-  const currentMonth = new Date().toISOString().slice(0, 7);
+  const now = new Date();
+const monthName = now.toLocaleString('default', { month: 'long' });
+const year = now.getFullYear();
+const displayMonth = `${monthName} ${year}`;
+const currentMonth = now.toISOString().slice(0, 7); // still used for backend API
 
-  // Load the current month's budget when component mounts
+
   useEffect(() => {
     const fetchBudget = async () => {
-      const res = await fetch("/api/budget");             // Call your backend API to get budget
+      const res = await fetch("/api/budget");
       const data = await res.json();
-      if (data && data.amount) setAmount(data.amount);    // If budget exists, pre-fill the input
-      setLoading(false);                                  // Done loading
+      if (data && data.amount) setAmount(data.amount);
+      setLoading(false);
     };
     fetchBudget();
   }, []);
 
-  // Submit the form to update or create the budget
   const handleSubmit = async (e) => {
-    e.preventDefault();                                   // Prevent default form submission
+    e.preventDefault();
     const res = await fetch("/api/budget", {
-      method: "POST",                                     // POST method to upsert budget
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         month: currentMonth,
-        amount: parseFloat(amount),                       // Ensure it's saved as a number
+        amount: parseFloat(amount),
       }),
     });
 
     if (res.ok) {
-      router.push("/dashboard");                          // Redirect back to dashboard if successful
+      router.push("/dashboard");
     } else {
-      alert("Failed to save budget");                     // Show error message if request failed
+      alert("Failed to save budget");
     }
   };
 
-  // Handle loading state while waiting for session or data
   if (status === "loading" || loading) return <p className="p-4">Loading...</p>;
 
   return (
-    <div className="max-w-md mx-auto p-4">
-      <h2 className="text-2xl mb-4">Edit Budget for {currentMonth}</h2>
+    <div className="signInBg min-h-screen flex items-center justify-center px-4">
+      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow border border-gray-200">
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}     // Update state as user types
-          className="border p-2 w-full"
-          placeholder="Enter budget amount"
-          required
-        />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-          Save Budget
-        </button>
-      </form>
+        {/* Logo at top */}
+        <div className="mx-auto h-12 w-12 flex items-center justify-center bg-white border border-gray-200 rounded-full overflow-hidden">
+          <img
+            src="/images/logo.png"
+            alt="App logo"
+            className="h-14 w-14 object-contain"
+          />
+        </div>
+
+        <h2 className="mt-6 text-2xl font-bold text-gray-900 text-center">Edit Budget for {displayMonth}</h2>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Budget Amount</label>
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="Enter budget amount"
+              required
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="signInButton w-full"
+          >
+            Save Budget
+          </button>
+
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="w-full mt-2 border border-gray-300 text-gray-700 hover:bg-gray-100 font-medium py-2 rounded-md transition"
+          >
+            Go Back
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

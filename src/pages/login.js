@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { MdEmail } from "react-icons/md";
+import { MdLock } from "react-icons/md";
 
 
 export default function Login() {
@@ -56,20 +57,27 @@ export default function Login() {
                     />
                 </div>
                 </div>
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                  Password
-                </label>
-                <input
-                  {...register("password")}
-                  id="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="mt-1 w-full border rounded-md px-3 py-2 shadow-sm focus:outline-none focus:ring-stone-500 focus:border-stone-500 text-gray-500"
-                />
-              </div>
-    
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                    Password
+                  </label>
+                  <div className="relative rounded-md shadow-sm">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <MdLock className="text-gray-400 w-5 h-5" />
+                    </div>
+                    <input
+                      {...register("password")}
+                      id="password"
+                      type="password"
+                      autoComplete="current-password"
+                      required
+                      className="w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-lightGreen focus:border-lightGreen"
+                      placeholder="••••••••"
+                      />
+                  </div>
+                </div>
+
+
               {error && <p className="text-red-600 text-sm">{error}</p>}
     
               <div className="flex items-center justify-between">

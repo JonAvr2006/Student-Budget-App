@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdLock } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { signIn } from "next-auth/react"; // make sure this is imported
@@ -98,7 +98,7 @@ const onSubmit = async (data) => {
               Password
             </label>
             <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-primaryGreen">
-              <RiLockPasswordLine className="text-gray-400 mr-2 w-5 h-5" />
+              <MdLock className="text-gray-400 mr-2 w-5 h-5" />
               <input
                 {...register("password")}
                 id="password"
