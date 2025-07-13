@@ -9,7 +9,6 @@ It is built using Next.js, Prisma, NextAuth, Tailwind CSS, and deployed on Verce
 - User authentication with NextAuth (Credentials provider)
 - Monthly budget management
 - Add, edit, delete expenses
-- Visual charts for categories and daily spending
 - Responsive, clean UI styled with Tailwind CSS
 - Deployed on Vercel for fast, reliable hosting
 
@@ -21,8 +20,6 @@ It is built using Next.js, Prisma, NextAuth, Tailwind CSS, and deployed on Verce
 - PostgreSQL (Railway)
 - Tailwind CSS
 - Vercel
-
-# Set-Up and Deployment
 
 ## Setup
 
@@ -94,9 +91,9 @@ This project is open-source and available under the MIT License.
 
 ## Acknowledgements
 
-Next.js
-NextAuth.js
-Prisma
-Railway
-Tailwind CSS
-Vercel
+- Next.js
+- NextAuth.js
+- Prisma
+- Railway
+- Tailwind CSS
+- Vercel
