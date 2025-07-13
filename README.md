@@ -22,6 +22,8 @@ It is built using Next.js, Prisma, NextAuth, Tailwind CSS, and deployed on Verce
 - Tailwind CSS
 - Vercel
 
+# Set-Up and Deployment
+
 ## Clone the repository
 
 git clone https://github.com/yourusername/student-budget-app.git
