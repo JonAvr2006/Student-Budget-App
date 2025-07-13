@@ -21,7 +21,6 @@ export default function AddExpense() {
     "Entertainment",
     "Utilities",
     "Health",
-    "Income",
     "Other",
   ]
 
