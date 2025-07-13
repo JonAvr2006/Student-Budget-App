@@ -22,6 +22,8 @@ It is built using Next.js, Prisma, NextAuth, Tailwind CSS, and deployed on Verce
 - Tailwind CSS
 - Vercel
 
+# Set-Up and Deployment
+
 ## Setup
 
 ### Clone the repository
@@ -92,9 +94,9 @@ This project is open-source and available under the MIT License.
 
 ## Acknowledgements
 
-- Next.js
-- NextAuth.js
-- Prisma
-- Railway
-- Tailwind CSS
-- Vercel
+Next.js
+NextAuth.js
+Prisma
+Railway
+Tailwind CSS
+Vercel
